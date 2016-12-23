@@ -1,0 +1,46 @@
+#!/bin/bash
+
+##
+# displays greeting message based on time
+#
+
+current=$(date +"%s")
+current=$(($current % (24*60*60)))
+
+namefile=~/.greetingsName
+
+if test -e $namefile; then
+	name=$(cat $namefile)
+else
+	name=$(whoami)
+fi
+
+
+
+morning=$((4*60*60))
+afternoon=$((12*60*60))
+evening=$((18*60*60))
+night=$((23*60*60))
+
+gMorning="Good morning, $name."
+gAfternoon="Good afternoon, $name."
+gEvening="Good evening, $name."
+gNight="Good night, $name."
+
+if test $current -gt $morning; then
+	if test $current -gt $afternoon; then
+		if test $current -gt $evening; then
+			if test $current -gt $night; then
+				echo $gNight
+			else
+				echo $gEvening
+			fi
+		else
+			echo $gAfternoon
+		fi
+	else
+		echo $gMorning
+	fi
+else
+	echo $gNight
+fi
